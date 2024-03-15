@@ -30,7 +30,7 @@ jobs:
         run: npm run build
       # Génération d'un artifact pour Github pages du dossier dist
       - name: Generate artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with: 
           name: build
           path: ./dist
@@ -45,5 +45,5 @@ jobs:
         uses: actions/configure-pages@v4
       # Déploiement sur Github Pages
       - name: Deploy to Github Pages
-        uses: 
+        uses: actions/deploy-pages@v4
 
