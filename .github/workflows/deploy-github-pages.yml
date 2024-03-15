@@ -1,1 +1,49 @@
 name: Deploy Github Pages
+
+# Déclenche l'action à chaque push sur la branche main
+on:
+  push: 
+    branches: 
+      - main
+    # Lorsque l'on a plusieurs branches pour déclencher l'action
+    # branches: 
+    #   - main
+    #   - dev
+
+jobs: 
+  build:
+    environment: production
+    runs-on: ubuntu-latest
+    defaults: 
+      run:
+        shell: bash
+        working-directory: ./
+    steps: 
+      # récup du code - le name est facultatif mais recommandé
+      - name: Fetch code
+        uses: actions/checkout@v4
+      # On installe les dépendances
+      - name: Install dependancies
+        run: npm install
+      # Build l'application
+      - name: Build
+        run: npm run build
+      # Génération d'un artifact pour Github pages du dossier dist
+      - name: Generate artifact
+        uses: actions/upload-pages-artifact@v4
+        with: 
+          name: build
+          path: ./dist
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps: 
+      # Configuration de Github Pages
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v4
+      # Déploiement sur Github Pages
+      - name: Deploy to Github Pages
+        uses: 
+
